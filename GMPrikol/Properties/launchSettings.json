@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GMPrikol": {
+      "commandName": "Project",
+      "commandLineArgs": "-project D:\\Garbage\\project.gmk -output D:\\Garbage\\test.exe -debug -pro -run"
+    }
+  }
+}
