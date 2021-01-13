@@ -34,40 +34,48 @@ namespace GMPrikol
 
     public static class ExeResource
     {
-        public static void SetExeResourceInfo(string fullPathToExe, ExeResInfo info)
+        /// <summary>
+        /// Appends an extra null-terminator to the string. Needed by ResourceLib.
+        /// </summary>
+        /// <param name="s">the string</param>
+        /// <returns>string with a null-terminator at the end.</returns>
+        public static string n(string s) => string.Format("{0}\0", s);
+
+        public static void SetExeResourceInfo(string fullPathToExe, ExeResInfo i)
         {
-            // set version info
             VersionResource versionResource = new VersionResource();
             versionResource.Language = 1043;
             versionResource.LoadFrom(fullPathToExe);
-            versionResource.FileVersion = info.ExeVersion.ToString();
-            versionResource.ProductVersion = info.ExeVersion.ToString();
+            versionResource.FileVersion = i.ExeVersion.ToString();
+            versionResource.ProductVersion = i.ExeVersion.ToString();
             StringFileInfo stringFileInfo = (StringFileInfo)versionResource["StringFileInfo"];
-            string fVer = string.Format("{0}\0", info.ExeVersion.ToString());
-            stringFileInfo["CompanyName"] = string.Format("{0}\0", info.Company);
-            stringFileInfo["FileDescription"] = string.Format("{0}\0", info.Description);
-            stringFileInfo["FileVersion"] = fVer;
-            stringFileInfo["LegalCopyright"] = string.Format("{0}\0", info.Copyright);
-            stringFileInfo["ProductName"] = string.Format("{0}\0", info.Product);
-            stringFileInfo["ProductVersion"] = fVer;
+            stringFileInfo["CompanyName"] = n(i.Company);
+            stringFileInfo["ProductName"] = n(i.Product);
+            stringFileInfo["LegalCopyright"] = n(i.Copyright);
+            stringFileInfo["ProductVersion"] = n(versionResource.ProductVersion);
+            stringFileInfo["FileDescription"] = n(i.Description);
+            stringFileInfo["Comments"] = n("Powered by GMPrikol.");
+
             versionResource.SaveTo(fullPathToExe);
 
-            // set icon info
-            string AppDir = AppDomain.CurrentDomain.BaseDirectory;
-            string iPath = Path.Combine(AppDir, "temp.ico");
-
-            // I know, this is ugly, blame Vestris.
-            File.WriteAllBytes(iPath, info.FileIcon);
-            IconFile iconFile = new IconFile(iPath);
-            File.Delete(iPath);
-
             IconDirectoryResource rc = new IconDirectoryResource();
-            rc.Language = 1043;
             rc.Name = new ResourceId("MAINICON");
-
+            rc.Language = 1043;
             rc.LoadFrom(fullPathToExe);
-            //rc.SaveTo(fullPathToExe); // :(, this doesn't work due to a bug in Vestris's library.
-            // TODO: Fix icon saving.
+
+            
+            string AppDir = AppDomain.CurrentDomain.BaseDirectory;
+            string Ico = Path.Combine(AppDir, "temp.ico");
+            File.WriteAllBytes(Ico, i.FileIcon);
+            IconFile iconfile = new IconFile(Ico);
+            File.Delete(Ico);
+
+            IconDirectoryResource iconDirectoryResource = new IconDirectoryResource(iconfile);
+            rc.Icons.Clear();
+            foreach (var ii in iconDirectoryResource.Icons)
+                rc.Icons.Add(ii);
+            
+            rc.SaveTo(fullPathToExe);
         }
     }
 }

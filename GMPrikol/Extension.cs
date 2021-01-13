@@ -1,4 +1,5 @@
-﻿using PrikolLib.Base;
+﻿using Ionic.Zlib;
+using PrikolLib.Base;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,6 +46,28 @@ namespace GMPrikol
                         id++;
                     }
                 }
+                writer.Write(gex.Seed);
+
+                // Prepare DAT files...
+                MemoryStream ms = new MemoryStream();
+                for (int i = 0; i < gex.Package.Files.Count; i++)
+                {
+                    if (gex.Package.Files[i].Kind == GEDFile.GEDFileKind.ActionLib) continue;
+
+                    byte[] zlibbed = ZlibStream.CompressBuffer(gex.RawDATs[i]);
+                    byte[] size = BitConverter.GetBytes(zlibbed.Length);
+                    ms.Write(size);
+                    ms.Write(zlibbed);
+                }
+                byte[] includes = ms.ToArray();
+                writer.Write(includes.Length);
+
+                // GMKrypt the data.
+                for (int i = 1; i < includes.Length; i++)
+                {
+                    includes[i] = gex.GMKrypt[0][includes[i]];
+                }
+                writer.Write(includes);
             }
         }
     }

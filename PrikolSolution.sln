@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GMPrikol", "GMPrikol\GMPrik
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrikolLib", "PrikolLib\PrikolLib.csproj", "{95D04874-92CA-4730-8C2B-36C474C6B71C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceLib", "ResourceLib\ResourceLib.csproj", "{C2F4EAC2-1094-4AE6-9599-39137A638F86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{95D04874-92CA-4730-8C2B-36C474C6B71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95D04874-92CA-4730-8C2B-36C474C6B71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95D04874-92CA-4730-8C2B-36C474C6B71C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2F4EAC2-1094-4AE6-9599-39137A638F86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2F4EAC2-1094-4AE6-9599-39137A638F86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2F4EAC2-1094-4AE6-9599-39137A638F86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2F4EAC2-1094-4AE6-9599-39137A638F86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

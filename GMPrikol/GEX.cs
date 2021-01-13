@@ -11,9 +11,9 @@ namespace GMPrikol
     {
         public int Version;
         public int Seed;
-        private byte[][] GMKrypt;
+        public byte[][] GMKrypt;
         public GED Package;
-        public byte[] RawDAT;
+        public List<byte[]> RawDATs;
 
         public void Lookup(int seed)
         {
@@ -78,8 +78,10 @@ namespace GMPrikol
             Package = new GED();
             Package.Load(gedReader);
 
-            // TODO: maybe do for (int i = 0; i < includedFilesCount; i++) ????????????????????
-            RawDAT = gedReader.ReadCompressedStream();
+            RawDATs = new List<byte[]>(Package.Files.Count);
+            for (int i = 0; i < Package.Files.Count; i++)
+                //if (Package.Files[i].Kind != GEDFile.GEDFileKind.ActionLib) // ???????????????????????????
+                    RawDATs.Add(gedReader.ReadCompressedStream());
 
             gedStream.Dispose();
             gedReader.Dispose();

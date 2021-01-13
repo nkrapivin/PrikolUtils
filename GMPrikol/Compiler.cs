@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace GMPrikol
@@ -187,10 +188,20 @@ namespace GMPrikol
                     try
                     {
                         Console.Write("Trying to run the game... ");
-                        // TODO: on Linux maybe use `wine` as the filename, and full path as the argument?
-                        Process game = Process.Start(OutputExecutablePath);
+                        Process game;
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            game = Process.Start(OutputExecutablePath);
+                            
+                        }
+                        else
+                        {
+                            game = Process.Start("wine", OutputExecutablePath);
+                        }
+
                         if (game == null) throw new Exception("No game process was started.");
                         game.Dispose();
+
                         Console.WriteLine("Done");
                     }
                     catch

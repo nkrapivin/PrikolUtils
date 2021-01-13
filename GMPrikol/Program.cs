@@ -54,7 +54,7 @@ namespace GMPrikol
                 PrintUsage();
                 return EXIT_SUCCESS;
             }
-
+            
             for (int arg = 0; arg < args.Length; arg++)
             {
                 try
